@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const { Router: TodoRouter } = require('./Todo');
-const { handleErrorMiddleware, logMiddleware } = require('./middlewares');
+const { handleErrorMiddleware, logMiddleware, idValidation } = require('./middlewares');
 
 // const todoRoutes = require('./routes/todo');
 
@@ -20,6 +20,7 @@ const app = express();
     app.use(bodyParser.json());
     app.use(logMiddleware);
     app.use('/api/todo', TodoRouter);
+    //app.use(idValidation);
     app.use(handleErrorMiddleware);
 
     // starting server
