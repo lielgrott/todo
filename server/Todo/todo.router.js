@@ -4,6 +4,7 @@ const TodoHandler = require('./todo.handler');
 
 const router = express.Router();
 
+router.get('/hello', (req, res) => res.send('hello'))
 router.get('/', TodoHandler.getAllTodos);
 router.post('/', TodoHandler.createTodo);
 router.get('/:id', TodoHandler.getOneTodo);
