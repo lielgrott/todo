@@ -1,0 +1,14 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.todo-app {
+    max-width: 600px;
+    margin: auto;
+    padding: 0 1rem;
+}
+
+h1 {
+    text-align: center;
+}
