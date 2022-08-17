@@ -11,12 +11,11 @@ const todoSchema = mongoose.Schema({
     },
     done: {
         type: Boolean,
-        required: true,
         default: false,
     }
 },
-{
-    timestamps: true
-});
+    {
+        timestamps: true
+    });
 
 module.exports = new mongoose.model('Todo', todoSchema);
