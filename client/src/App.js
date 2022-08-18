@@ -8,31 +8,36 @@ function App() {
 
   const [text, setText] = useState("");
   const [todo, setTodo] = useState([]);
-  const [isUpdating, setIsUpdating] = useState("");
+  const [isUpdating, setUpdating] = useState("");
 
   useEffect(() => {
     axios.get("http://localhost:3000/api/todo")
       .then((res) => setTodo(res.data))
-      .catch((err) => console.log(err))
-  });
+      .catch((err) => console.log(err));
+  },[todo.length]);
 
-  const addUpdate = () => {
+  const addUpdateTodo = () => {
     if (isUpdating === "") {
       axios.post("http://localhost:3000/api/todo", { title: text })
         .then((res) => {
-          console.log(res.data)
+          setTodo([res.data])
           setText("")
+          setUpdating("")
         })
         .catch((err) => console.log(err))
     }
   }
 
   const deleteTodo = (_id) => {
-
+    axios.delete("http://localhost:3000/api/todo/"+_id)
+    .then((res)=>{console.log(res.data)
+      setTodo(todo)})
+    .catch((err)=>console.log(err))
   }
 
   const updateTodo = (_id, title, description) => {
-
+    setUpdating(_id)
+    setText(text)
   }
 
   return (
@@ -48,7 +53,7 @@ function App() {
             className='todo-input'
             onChange={(e) => setText(e.target.value)}
           />
-          <button className='todo-btn' onClick={addUpdate}>Add Todo
+          <button className='todo-btn' onClick={addUpdateTodo}>Add Todo
           </button>
         </div>
         <div className='list'>
