@@ -1,46 +1,38 @@
-// import React, { useState } from 'react'
-// import TodoForm from './TodoForm'
-// import Todo from './Todo';
+import Todo from './Todo';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
-// function TodoList() {
-//     const [todos, setTodos] = useState([])
+function TodoList() {
+    const [todo, setTodo] = useState([]);
+    const [isUpdating, setUpdating] = useState('');
 
-//     const addTodo = todo => {
-//         if (!todo.text || /^\s*$/.test(todo.text)) {
-//             return
-//         }
-//         const newTodos = [todo, ...todos];
+    useEffect(() => {
+        axios.get("http://localhost:3000/api/todo")
+            .then((res) => setTodo(res.data))
+            .catch((err) => console.log(err));
+    }, [todo.length]);
+    const deleteTodo = (_id) => {
+        axios.delete("http://localhost:3000/api/todo/" + _id)
+            .then((res) => {
+                console.log(res.data)
+                setTodo(todo)
+            })
+            .catch((err) => console.log(err))
+    }
 
-//         setTodos(newTodos)
-//     };
+    const updateTodo = (_id, title, description) => {
+        setUpdating(_id)
+    }
+    return (
+        <div className='list'>
+            {todo.map(item => <Todo
+                key={item._id}
+                text={item.title}
+                description={item.description}
+                remove={() => deleteTodo(item._id)}
+                update={() => updateTodo(item._id, item.text, item.description)} />)}
+        </div>
+    )
+}
 
-//     // const removeTodo = id => {
-//     //     const removeArr = [...todos].filter(todo => todo.id !== id)
-
-//     //     setTodos(removeArr)
-//     // };
-
-//     // const completeTodo = id => {
-//     //     let updatedTodos = todos.map(todo => {
-//     //         if (todo.id === id) {
-//     //             todo.isComplete = !todo.isComplete;
-//     //         }
-//     //         return todo
-//     //     });
-//     //     setTodos(updatedTodos)
-//     // }
-
-//     return (
-//         <div>
-//             <h1>Todo App</h1>
-//             <TodoForm onSubmit={addTodo} />
-//             <Todo
-//                 todos={todos}
-//                 completeTodo={completeTodo}
-//                 removeTodo={removeTodo}
-//             />
-//         </div>
-//     )
-// }
-
-// export default TodoList
+export default TodoList
