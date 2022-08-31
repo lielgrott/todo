@@ -1,7 +1,7 @@
-function Todo({ text, description, remove, update }) {
+function Todo({ title, description, remove, update }) {
     return (
         <div className='todo-row'>
-            <div className='title'>{text}</div>
+            <div className='title'>{title}</div>
             <div className='description'>{description}</div>
             <div className='icons'>
                 <i className='ri-pencil-fill' onClick={update}></i>
